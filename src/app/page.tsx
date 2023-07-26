@@ -1,3 +1,9 @@
+import MainCard from "@/components/MainCard";
+
 export default function Home() {
-  return <div>Hello world</div>;
+  return (
+    <div className="flex w-full  h-full justify-center items-center">
+      <MainCard />
+    </div>
+  );
 }
