@@ -3,9 +3,13 @@ import { useState } from "react";
 import Avatar from "avataaars";
 import { Icon } from "@iconify/react";
 import * as Form from "@radix-ui/react-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { generateRandomAvatar } from "@/utils/generateRandomAvatar";
+import Input from "@/components/Form/Input";
 
 export default function AvatarContainer() {
+  const methods = useForm();
+
   const [randomAvatar, setRandomAvatar] = useState({
     eyeType: "Side",
     accessoriesType: "Prescription02",
@@ -37,34 +41,18 @@ export default function AvatarContainer() {
       >
         <Icon icon={"fa-solid:dice"} className="w-8 h-8  text-nord-6" />
       </button>
-      <Form.Root>
-        <Form.Field name="nickname">
-          <div className="flex items-baseline justify-between">
-            <Form.Label className="text-[15px] font-medium leading-[35px] text-nord-2">
-              Nickname
-            </Form.Label>
-            <Form.Message
-              className="text-[13px] text-2 opacity-[0.8]"
-              match="valueMissing"
-            >
-              Please enter your nickname
-            </Form.Message>
-            <Form.Message
-              className="text-[13px] text-2 opacity-[0.8]"
-              match="typeMismatch"
-            >
-              Please provide a nickname
-            </Form.Message>
-          </div>
-          <Form.Control asChild>
-            <input
-              className="box-border bg-nord-6 w-full inline-flex h-[35px] appearance-none items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none text-2 shadow-[0_0_0_1px] outline-none hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black] selection:color-white selection:bg-blackA9"
-              type="text"
-              required
-            />
-          </Form.Control>
-        </Form.Field>
-      </Form.Root>
+      <FormProvider {...methods}>
+        <Form.Root>
+          <Input
+            inputProps={{
+              name: "nickname",
+              label: "Nickname",
+              message: "Please provide a nickname",
+              required: true,
+            }}
+          />
+        </Form.Root>
+      </FormProvider>
     </div>
   );
 }
