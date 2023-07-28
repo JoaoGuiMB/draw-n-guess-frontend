@@ -3,5 +3,5 @@ interface PageWrapperProps {
 }
 
 export default function PageWrapper({ children }: PageWrapperProps) {
-  return <main className="h-screen w-screen bg-nord-6">{children}</main>;
+  return <main className="mt-8">{children}</main>;
 }
