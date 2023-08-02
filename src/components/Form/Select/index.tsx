@@ -4,8 +4,8 @@ import { useFormContext } from "react-hook-form";
 interface Select {
   name: string;
   label: string;
-  message: string;
-  required: boolean;
+  message?: string;
+  required?: boolean;
 }
 
 interface SelectProps {
@@ -35,6 +35,7 @@ export default function Select({ selectProps, children }: SelectProps) {
           {...register(name, { required })}
           className="box-border bg-nord-6 w-full inline-flex h-[35px] items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none text-2 shadow-[0_0_0_1px] outline-none hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black] selection:color-white selection:bg-nord-0"
           required={required}
+          defaultValue={80}
         >
           {children}
         </select>

@@ -4,8 +4,8 @@ import { useFormContext } from "react-hook-form";
 interface Input {
   name: string;
   label: string;
-  message: string;
-  required: boolean;
+  message?: string;
+  required?: boolean;
   type?: string;
 }
 
@@ -38,6 +38,7 @@ export default function Input({ inputProps }: InputProps) {
           type={type || "text"}
           max={type === "number" ? 10 : undefined}
           min={type === "number" ? 2 : undefined}
+          defaultValue={2}
           required={required}
         />
       </Form.Control>

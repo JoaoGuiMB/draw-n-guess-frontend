@@ -5,11 +5,15 @@ import { Icon } from "@iconify/react";
 import Button from "@/components/Button";
 import Input from "@/components/Form/Input";
 import Select from "@/components/Form/Select";
+import { socket } from "@/utils/socket";
+import { CATEGORIES } from "@/utils/categories";
+import { MAXIMUM_POINTS } from "@/utils/maximumPoints";
+import { CreateRoom } from "@/types/Room";
 
 export default function CreateRoomDialog() {
-  const methods = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const methods = useForm<CreateRoom>();
+  const onSubmit = (data: CreateRoom) => {
+    socket.emit("create-room", data);
   };
 
   return (
@@ -31,7 +35,7 @@ export default function CreateRoomDialog() {
               <div className="p-2 flex flex-col justify-center items-center ">
                 <Input
                   inputProps={{
-                    name: "roomName",
+                    name: "name",
                     label: "Room name",
                     message: "Please provide a nickname",
                     required: true,
@@ -45,17 +49,29 @@ export default function CreateRoomDialog() {
                     required: true,
                   }}
                 >
-                  <option value={"ANIME"}>Anime</option>
-                  <option value={"ANIMALS"}>Animals</option>
-                  <option value={"ANIME"}>Anime</option>
-                  <option value={"ANIME"}>Anime</option>
+                  {CATEGORIES.map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.label}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  selectProps={{
+                    name: "maximumPoints",
+                    label: "Maximum points",
+                  }}
+                >
+                  {MAXIMUM_POINTS.map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.label}
+                    </option>
+                  ))}
                 </Select>
                 <Input
                   inputProps={{
                     name: "maximumNumberOfPlayers",
                     label: "Maximum number of players",
-                    message: "Please provide a maximum number of players",
-                    required: true,
+
                     type: "number",
                   }}
                 />
