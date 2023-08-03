@@ -27,9 +27,7 @@ export default function CreateRoomDialog() {
           <Dialog.Title className="text-nord-0 m-0 text-[17px] font-medium">
             Create Room
           </Dialog.Title>
-          <Dialog.Description className="text-nord-0 mt-[10px] mb-5 text-[15px] leading-normal">
-            Make changes to your profile here. Click save when youre done.
-          </Dialog.Description>
+
           <FormProvider {...methods}>
             <Form.Root onSubmit={methods.handleSubmit(onSubmit)}>
               <div className="p-2 flex flex-col justify-center items-center ">
