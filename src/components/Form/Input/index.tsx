@@ -38,7 +38,7 @@ export default function Input({ inputProps }: InputProps) {
           type={type || "text"}
           max={type === "number" ? 10 : undefined}
           min={type === "number" ? 2 : undefined}
-          defaultValue={2}
+          defaultValue={type === "number" ? 2 : ""}
           required={required}
         />
       </Form.Control>

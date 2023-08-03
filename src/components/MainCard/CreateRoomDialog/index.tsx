@@ -12,15 +12,18 @@ import { CreateRoom } from "@/types/Room";
 import { useCreateRoomMutation } from "@/redux/api";
 import { socket } from "@/utils/socket";
 import { MessageResponse } from "@/types/MessageResponse";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function CreateRoomDialog() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const methods = useForm<CreateRoom>();
   const [createRoom] = useCreateRoomMutation();
 
   useEffect(() => {
     socket.on("room-created", (response: MessageResponse) => {
       toast.success(response.message);
+      setIsDialogOpen(false);
+      methods.reset();
     });
     socket.on("create-room-error", (response: MessageResponse) => {
       toast.error(response.message);
@@ -32,7 +35,7 @@ export default function CreateRoomDialog() {
   };
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Trigger asChild>
         <Button title="Create room" icon="cil:room" />
       </Dialog.Trigger>
