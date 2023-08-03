@@ -1,19 +1,31 @@
 import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import * as Dialog from "@radix-ui/react-dialog";
+import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import Button from "@/components/Button";
 import Input from "@/components/Form/Input";
 import Select from "@/components/Form/Select";
-//import { socket } from "@/utils/socket";
 import { CATEGORIES } from "@/utils/categories";
 import { MAXIMUM_POINTS } from "@/utils/maximumPoints";
 import { CreateRoom } from "@/types/Room";
 import { useCreateRoomMutation } from "@/redux/api";
+import { socket } from "@/utils/socket";
+import { MessageResponse } from "@/types/MessageResponse";
+import { useEffect } from "react";
 
 export default function CreateRoomDialog() {
   const methods = useForm<CreateRoom>();
   const [createRoom] = useCreateRoomMutation();
+
+  useEffect(() => {
+    socket.on("room-created", (response: MessageResponse) => {
+      toast.success(response.message);
+    });
+    socket.on("create-room-error", (response: MessageResponse) => {
+      toast.error(response.message);
+    });
+  }, []);
 
   const onSubmit = (data: CreateRoom) => {
     createRoom(data);
