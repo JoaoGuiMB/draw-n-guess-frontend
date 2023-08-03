@@ -1,19 +1,23 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Icon } from "@iconify/react";
 import Button from "@/components/Button";
-import { socket } from "@/utils/socket";
-import { CreateRoom } from "@/types/Room";
+
 import RoomList from "./RoomList";
+import { socket } from "@/utils/socket";
 
 export default function JoinRoomDialog() {
-  const onSubmit = (data: CreateRoom) => {
-    socket.emit("create-room", data);
+  const handlePlayButton = () => {
+    socket.emit("get-rooms");
   };
 
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Button title="Play" icon="fluent-mdl2:game" />
+        <Button
+          title="Play"
+          icon="fluent-mdl2:game"
+          onClick={handlePlayButton}
+        />
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0" />

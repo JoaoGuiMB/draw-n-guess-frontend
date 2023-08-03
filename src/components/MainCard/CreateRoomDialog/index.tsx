@@ -5,15 +5,18 @@ import { Icon } from "@iconify/react";
 import Button from "@/components/Button";
 import Input from "@/components/Form/Input";
 import Select from "@/components/Form/Select";
-import { socket } from "@/utils/socket";
+//import { socket } from "@/utils/socket";
 import { CATEGORIES } from "@/utils/categories";
 import { MAXIMUM_POINTS } from "@/utils/maximumPoints";
 import { CreateRoom } from "@/types/Room";
+import { useCreateRoomMutation } from "@/redux/api";
 
 export default function CreateRoomDialog() {
   const methods = useForm<CreateRoom>();
+  const [createRoom] = useCreateRoomMutation();
+
   const onSubmit = (data: CreateRoom) => {
-    socket.emit("create-room", data);
+    createRoom(data);
   };
 
   return (
@@ -23,7 +26,7 @@ export default function CreateRoomDialog() {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0" />
-        <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-nord-5 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+        <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[35vw]  translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-nord-5 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
           <Dialog.Title className="text-nord-0 m-0 text-[17px] font-medium">
             Create Room
           </Dialog.Title>
@@ -74,7 +77,7 @@ export default function CreateRoomDialog() {
                   }}
                 />
 
-                <Form.Submit className="mt-4">
+                <Form.Submit className="mt-4 w-full flex justify-center">
                   <Button title="Create" />
                 </Form.Submit>
               </div>
