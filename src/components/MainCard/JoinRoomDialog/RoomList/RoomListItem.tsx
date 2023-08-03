@@ -1,4 +1,5 @@
-import Button from "@/components/Button";
+import { CATEGORIES } from "@/utils/categories";
+import { Icon } from "@iconify/react";
 import * as Separator from "@radix-ui/react-separator";
 
 interface RoomListItemProps {
@@ -14,17 +15,18 @@ export default function RoomListItem({
   currentNumberOfPlayers,
   maximumNumberOfPlayers,
 }: RoomListItemProps) {
+  const categoryIcon = CATEGORIES.find((c) => c.value === category)?.icon;
   return (
-    <>
-      <li className="flex w-full  justify-evenly text-center">
-        <div className="max-w-[100px] truncate">{name}</div>
-        <div>{category}</div>
-        <div>
-          {currentNumberOfPlayers}/{maximumNumberOfPlayers}
-        </div>
-        <Button title="Join room" />
-      </li>
-      <Separator.Root className="bg-violet6 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px my-[15px]" />
-    </>
+    <li className="border-nord-1 border-2 w-[70%] bg-nord-6 rounded-md h-[180px] flex flex-col justify-center items-center mt-4 shadow-md hover:cursor-pointer hover:transform hover:scale-105">
+      <div>
+        <Icon icon={categoryIcon || ""} className="w-20 h-20" />
+      </div>
+      <div className="max-w-[100px] truncate font-bold">{name}</div>
+
+      <div className="flex justify-center items-center text-center mt-2">
+        {currentNumberOfPlayers}/{maximumNumberOfPlayers}{" "}
+        <Icon icon="mdi:account" className="ml-2 text-nord-2 w-6 h-6" />
+      </div>
+    </li>
   );
 }

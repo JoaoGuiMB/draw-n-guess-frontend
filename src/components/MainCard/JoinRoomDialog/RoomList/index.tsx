@@ -2,12 +2,11 @@ import { useGetRoomsQuery } from "@/redux/api";
 import RoomListItem from "./RoomListItem";
 
 export default function RoomList() {
-  const { data, refetch } = useGetRoomsQuery();
-  console.log(data);
+  const { data } = useGetRoomsQuery();
 
   return (
     <div>
-      <ul className=" max-h-[50vh]  overflow-y-auto ml-8 p-2">
+      <ul className=" max-h-[50vh] overflow-y-auto ml-8   grid grid-cols-2 md:grid-cols-4 ">
         {data?.map((room) => (
           <RoomListItem
             key={room.name}

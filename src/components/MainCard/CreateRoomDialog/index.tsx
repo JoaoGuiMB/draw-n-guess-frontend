@@ -2,7 +2,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import * as Dialog from "@radix-ui/react-dialog";
 import { toast } from "react-toastify";
-import { Icon } from "@iconify/react";
+import { Icon, InlineIcon } from "@iconify/react";
 import Button from "@/components/Button";
 import Input from "@/components/Form/Input";
 import Select from "@/components/Form/Select";
@@ -28,7 +28,7 @@ export default function CreateRoomDialog() {
     socket.on("create-room-error", (response: MessageResponse) => {
       toast.error(response.message);
     });
-  }, []);
+  }, [methods]);
 
   const onSubmit = (data: CreateRoom) => {
     createRoom(data);
@@ -41,7 +41,7 @@ export default function CreateRoomDialog() {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0" />
-        <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[35vw]  translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-nord-5 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+        <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[90vh]  w-[70vw] md:w-[35vw]  translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-nord-5 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
           <Dialog.Title className="text-nord-0 m-0 text-[17px] font-medium">
             Create Room
           </Dialog.Title>
