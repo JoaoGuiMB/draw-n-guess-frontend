@@ -6,7 +6,7 @@ export default function RoomList() {
 
   return (
     <div>
-      <ul className=" max-h-[50vh] overflow-y-auto ml-8   grid grid-cols-2 md:grid-cols-4 ">
+      <ul className=" max-h-[50vh] overflow-y-auto ml-8 p-5  grid grid-cols-2 md:grid-cols-4 ">
         {data?.map((room) => (
           <RoomListItem
             key={room.name}
