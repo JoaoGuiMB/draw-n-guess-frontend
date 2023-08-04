@@ -4,8 +4,13 @@ import Button from "@/components/Button";
 
 import RoomList from "./RoomList";
 import { socket } from "@/utils/socket";
+import { useTypedSelector } from "@/hooks/useRedux";
 
 export default function JoinRoomDialog() {
+  const playerSelector = useTypedSelector((state) => state.playerReducer);
+
+  const disablePlayButton = playerSelector.nickName === "";
+
   const handlePlayButton = () => {
     socket.emit("get-rooms");
   };
@@ -16,6 +21,7 @@ export default function JoinRoomDialog() {
         <Button
           title="Play"
           icon="fluent-mdl2:game"
+          disabled={disablePlayButton}
           onClick={handlePlayButton}
         />
       </Dialog.Trigger>
