@@ -6,25 +6,19 @@ import * as Form from "@radix-ui/react-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { generateRandomAvatar } from "@/utils/generateRandomAvatar";
 import Input from "@/components/Form/Input";
+import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
+import { setPlayerName, setPlayerAvatar } from "@/redux/slices/player";
 
 export default function AvatarContainer() {
   const methods = useForm();
-
-  const [randomAvatar, setRandomAvatar] = useState({
-    eyeType: "Side",
-    accessoriesType: "Prescription02",
-    topType: "WinterHat2",
-    hairColor: "Red",
-    facialHairType: "MoustacheFancy",
-    clotheType: "ShirtCrewNeck",
-    eyebrowType: "RaisedExcitedNatural",
-    mouthType: "Concerned",
-    skinColor: "Black",
-  });
+  const playerSelector = useTypedSelector((state) => state.playerReducer);
+  const dispatch = useDispatchHook();
 
   const toggleRandomAvatar = () => {
-    setRandomAvatar(generateRandomAvatar());
+    dispatch(setPlayerAvatar(generateRandomAvatar()));
   };
+
+  console.log({ playerSelector });
 
   return (
     <div className="h-[40%] flex flex-col justify-center items-center">
@@ -32,7 +26,7 @@ export default function AvatarContainer() {
         <Avatar
           style={{ width: "150px", height: "150px" }}
           avatarStyle="Circle"
-          {...randomAvatar}
+          {...playerSelector.avatar}
         />
       </div>
       <button
@@ -45,10 +39,14 @@ export default function AvatarContainer() {
         <Form.Root>
           <Input
             inputProps={{
-              name: "nickname",
+              name: "nickName",
               label: "Nickname",
               message: "Please provide a nickname",
               required: true,
+              defaultValue: playerSelector.nickName,
+              onChange: (e) => {
+                dispatch(setPlayerName(e.target.value));
+              },
             }}
           />
         </Form.Root>

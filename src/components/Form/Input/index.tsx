@@ -7,6 +7,8 @@ interface Input {
   message?: string;
   required?: boolean;
   type?: string;
+  defaultValue?: string | number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface InputProps {
@@ -14,7 +16,8 @@ interface InputProps {
 }
 
 export default function Input({ inputProps }: InputProps) {
-  const { name, message, label, required, type } = inputProps;
+  const { name, message, label, required, type, defaultValue, onChange } =
+    inputProps;
   const { register } = useFormContext();
 
   return (
@@ -38,8 +41,9 @@ export default function Input({ inputProps }: InputProps) {
           type={type || "text"}
           max={type === "number" ? 10 : undefined}
           min={type === "number" ? 2 : undefined}
-          defaultValue={type === "number" ? 2 : ""}
+          defaultValue={defaultValue || ""}
           required={required}
+          onChange={onChange ? onChange : undefined}
         />
       </Form.Control>
     </Form.Field>

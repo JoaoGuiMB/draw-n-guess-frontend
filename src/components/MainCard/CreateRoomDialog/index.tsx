@@ -87,7 +87,7 @@ export default function CreateRoomDialog() {
                   inputProps={{
                     name: "maximumNumberOfPlayers",
                     label: "Maximum number of players",
-
+                    defaultValue: 2,
                     type: "number",
                   }}
                 />
