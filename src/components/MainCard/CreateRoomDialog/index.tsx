@@ -20,6 +20,9 @@ export default function CreateRoomDialog() {
   const [createRoom] = useCreateRoomMutation();
 
   useEffect(() => {
+    if (socket.disconnected) {
+      socket.connect();
+    }
     socket.on("room-created", (response: MessageResponse) => {
       toast.success(response.message);
       setIsDialogOpen(false);

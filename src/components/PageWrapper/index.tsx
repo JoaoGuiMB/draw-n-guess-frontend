@@ -3,5 +3,5 @@ interface PageWrapperProps {
 }
 
 export default function PageWrapper({ children }: PageWrapperProps) {
-  return <main className="mt-8">{children}</main>;
+  return <main>{children}</main>;
 }
