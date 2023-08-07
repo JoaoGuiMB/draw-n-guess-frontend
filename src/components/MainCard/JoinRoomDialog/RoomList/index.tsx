@@ -4,6 +4,10 @@ import RoomListItem from "./RoomListItem";
 export default function RoomList() {
   const { data } = useGetRoomsQuery();
 
+  if (data?.length === 0) {
+    return <div className="flex justify-center">No room was created</div>;
+  }
+
   return (
     <div>
       <ul className=" max-h-[50vh] overflow-y-auto ml-8 p-5  grid grid-cols-2 md:grid-cols-4 ">

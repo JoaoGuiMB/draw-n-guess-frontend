@@ -19,7 +19,7 @@ export default function AvatarContainer() {
     if (playerSelector.id) {
       socket.emit("player-leave-room");
     }
-  }, []);
+  }, [playerSelector.id]);
 
   const toggleRandomAvatar = () => {
     dispatch(setPlayerAvatar(generateRandomAvatar()));

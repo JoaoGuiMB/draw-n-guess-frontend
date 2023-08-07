@@ -20,9 +20,6 @@ export default function CreateRoomDialog() {
   const [createRoom] = useCreateRoomMutation();
 
   useEffect(() => {
-    if (socket.disconnected) {
-      socket.connect();
-    }
     socket.on("room-created", (response: MessageResponse) => {
       toast.success(response.message);
       setIsDialogOpen(false);
@@ -94,10 +91,9 @@ export default function CreateRoomDialog() {
                     type: "number",
                   }}
                 />
-
-                <Form.Submit className="mt-4 w-full flex justify-center">
-                  <Button title="Create" />
-                </Form.Submit>
+                <div className="mt-5 w-full flex justify-center">
+                  <Button title="Create" type="submit" />
+                </div>
               </div>
             </Form.Root>
           </FormProvider>
