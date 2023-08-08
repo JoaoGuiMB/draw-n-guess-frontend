@@ -19,3 +19,8 @@ export interface Room {
   currentWord?: string;
   currentRound?: number;
 }
+
+export interface JoinRoom {
+  playerId: string;
+  room: Room;
+}

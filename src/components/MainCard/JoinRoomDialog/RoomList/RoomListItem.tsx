@@ -3,9 +3,11 @@ import { CATEGORIES } from "@/utils/categories";
 import { socket } from "@/utils/socket";
 import { Icon } from "@iconify/react";
 import { setPlayerId } from "@/redux/slices/player";
+import { setCurrentRoom } from "@/redux/slices/room";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { CustomError } from "@/types/Error";
+import { JoinRoom } from "@/types/Room";
 
 interface RoomListItemProps {
   name: string;
@@ -27,14 +29,17 @@ export default function RoomListItem({
 
   const handleJoinRoom = () => {
     socket.emit("join-room", { roomName: name, player: playerSelector });
-    socket.on("player-joined-room", (socketId: string) => {
-      dispatch(setPlayerId(socketId));
+    socket.on("player-joined-room", (joinRoomData: JoinRoom) => {
+      dispatch(setPlayerId(joinRoomData.playerId));
+      dispatch(setCurrentRoom(joinRoomData.room));
       router.push(`/${name}`);
     });
     socket.on("join-room-error", (error: CustomError) => {
       toast.error(error.message);
     });
   };
+
+  console.log(playerSelector);
 
   return (
     <li

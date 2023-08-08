@@ -8,6 +8,8 @@ export default function RoomList() {
     return <div className="flex justify-center">No room was created</div>;
   }
 
+  console.log(data);
+
   return (
     <div>
       <ul className=" max-h-[50vh] overflow-y-auto ml-8 p-5  grid grid-cols-2 md:grid-cols-4 ">
