@@ -1,5 +1,5 @@
 "use client";
-import PlayersList from "@/components/PlayersList";
+import PlayersList from "@/components/RoomPage/PlayersList";
 import { useTypedSelector } from "@/hooks/useRedux";
 import useWindowSize from "@/hooks/useWindowSize";
 import { useRouter } from "next/navigation";
