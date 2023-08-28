@@ -39,7 +39,6 @@ export default function RoomListItem({
     });
   };
 
-  console.log(playerSelector);
 
   return (
     <li
