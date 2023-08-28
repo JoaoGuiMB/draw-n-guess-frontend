@@ -8,16 +8,16 @@ interface PlayerListItemProps {
 export default function PlayerListItem({ player }: PlayerListItemProps) {
   const { avatar, nickName, points } = player;
   return (
-    <div className="flex w-full h-[30%] justify-between items-center">
-      <div>
+    <div className="flex w-full h-[18%] justify-between items-center p-2 border-nord-10 border-2 bg-nord-6">
+      <div className="max-w-[45%]">
         <Avatar
-          style={{ width: "150px", height: "150px" }}
+          style={{ width: "70px", height: "70px" }}
           avatarStyle="Circle"
           {...avatar}
         />
-        <div>{nickName}</div>
+        <div className="mt-2 truncate">{nickName}</div>
       </div>
-      <div>{points}</div>
+      <div>{points} points</div>
     </div>
   );
 }

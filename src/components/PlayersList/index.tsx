@@ -11,13 +11,12 @@ export default function PlayersList() {
 
   useEffect(() => {
     socket.on("update-players", (data: Player[]) => {
-      console.log("aqui");
       dispatch(setPlayers(data));
     });
   }, [dispatch, players]);
 
   return (
-    <div className="bg-yellow-500">
+    <div className="overflow-y-auto h-full border-4 border-nord-6 bg-nord-4">
       {players?.map((player) => (
         <PlayerListItem player={player} key={player.id} />
       ))}

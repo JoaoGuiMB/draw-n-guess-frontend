@@ -15,10 +15,10 @@ export default function RoomPage() {
 
   if (isMobile) {
     return (
-      <div className="w-full h-[92vh] bg-red-500 flex flex-col">
+      <div className="w-full h-[92vh] flex flex-col">
         <div className="h-[60%] bg-blue-500 md:h-full p-2">Game Board</div>
         <div className="flex h-full md:h-[90%]">
-          <div className="w-[50%] bg-green-500">
+          <div className="w-[50%]">
             <PlayersList />
           </div>
           <div className="w-[50%] ">Chat</div>
@@ -28,8 +28,8 @@ export default function RoomPage() {
   }
 
   return (
-    <div className="w-full h-[92vh] bg-red-500 flex">
-      <div className="w-[20%] h-full bg-green-500">
+    <div className="w-full h-[92vh] flex">
+      <div className="w-[20%] h-full">
         <PlayersList />
       </div>
       <div className="flex h-full flex-col w-full">
