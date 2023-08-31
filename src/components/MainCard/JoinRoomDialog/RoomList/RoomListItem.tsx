@@ -39,7 +39,6 @@ export default function RoomListItem({
     });
   };
 
-
   return (
     <li
       onClick={handleJoinRoom}

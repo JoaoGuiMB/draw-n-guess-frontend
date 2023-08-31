@@ -3,10 +3,11 @@ import { useFormContext } from "react-hook-form";
 
 interface Input {
   name: string;
-  label: string;
+  label?: string;
   message?: string;
   required?: boolean;
   type?: string;
+  placeholder?: string;
   defaultValue?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -16,8 +17,16 @@ interface InputProps {
 }
 
 export default function Input({ inputProps }: InputProps) {
-  const { name, message, label, required, type, defaultValue, onChange } =
-    inputProps;
+  const {
+    name,
+    message,
+    label,
+    required,
+    type,
+    defaultValue,
+    placeholder,
+    onChange,
+  } = inputProps;
   const { register } = useFormContext();
 
   return (
@@ -44,6 +53,7 @@ export default function Input({ inputProps }: InputProps) {
           defaultValue={defaultValue || ""}
           required={required}
           onChange={onChange ? onChange : undefined}
+          placeholder={placeholder}
         />
       </Form.Control>
     </Form.Field>

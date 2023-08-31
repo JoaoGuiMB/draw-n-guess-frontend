@@ -18,9 +18,16 @@ export interface Room {
   players: Player[];
   currentWord?: string;
   currentRound?: number;
+  chat: string[];
 }
 
 export interface JoinRoom {
   playerId: string;
   room: Room;
+}
+
+export interface Guess {
+  roomName: string;
+  playerNickname: string;
+  guess: string;
 }

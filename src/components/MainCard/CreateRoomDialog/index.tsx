@@ -2,7 +2,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import * as Dialog from "@radix-ui/react-dialog";
 import { toast } from "react-toastify";
-import { Icon, InlineIcon } from "@iconify/react";
+import { Icon } from "@iconify/react";
 import Button from "@/components/Button";
 import Input from "@/components/Form/Input";
 import Select from "@/components/Form/Select";

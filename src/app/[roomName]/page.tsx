@@ -1,11 +1,14 @@
 "use client";
+import Chat from "@/components/RoomPage/Chat";
 import PlayersList from "@/components/RoomPage/PlayersList";
 import { useTypedSelector } from "@/hooks/useRedux";
 import useWindowSize from "@/hooks/useWindowSize";
+
 import { useRouter } from "next/navigation";
 
 export default function RoomPage() {
   const { id } = useTypedSelector((state) => state.playerReducer);
+
   const router = useRouter();
   const { isMobile } = useWindowSize();
 
@@ -21,7 +24,9 @@ export default function RoomPage() {
           <div className="w-[50%]">
             <PlayersList />
           </div>
-          <div className="w-[50%] ">Chat</div>
+          <div className="w-[50%] ">
+            <Chat />
+          </div>
         </div>
       </div>
     );
@@ -34,7 +39,9 @@ export default function RoomPage() {
       </div>
       <div className="flex h-full flex-col w-full">
         <div className="h-[60%] bg-blue-500 p-2">Game Board</div>
-        <div className="h-[40%] ">Chat</div>
+        <div className="h-[40%] ">
+          <Chat />
+        </div>
       </div>
     </div>
   );

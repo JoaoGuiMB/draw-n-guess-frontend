@@ -16,7 +16,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
         className={`${
           !disabled ? "bg-nord-7" : "bg-nord-4"
-        } text-nord-6 rounded-lg p-2 w-[92%] md:w-[24%] h-[40%] flex justify-center items-center mb-4 text-lg border-4 border-nord-6 shadow-lg`}
+        } text-nord-6 rounded-lg p-2 w-[92%] md:w-[18%] flex justify-center items-center mb-4 text-lg border-4 border-nord-6 shadow-lg`}
       >
         <div className="right-5 relative">
           {icon && <Icon icon={icon} className="w-6 h-6" />}
