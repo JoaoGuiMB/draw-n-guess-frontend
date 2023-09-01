@@ -5,7 +5,7 @@ export default function Messages() {
 
   return (
     <div className="mb-1">
-      {messages.map((message, i) => (
+      {messages?.map((message, i) => (
         <div key={`${message}-${i}`}>{message}</div>
       ))}
     </div>
