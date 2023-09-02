@@ -1,5 +1,6 @@
 "use client";
 import Chat from "@/components/RoomPage/Chat";
+import DrawingCanvas from "@/components/RoomPage/DrawingCanvas";
 import PlayersList from "@/components/RoomPage/PlayersList";
 import { useTypedSelector } from "@/hooks/useRedux";
 import useWindowSize from "@/hooks/useWindowSize";
@@ -19,7 +20,9 @@ export default function RoomPage() {
   if (isMobile) {
     return (
       <div className="w-full h-[92vh] flex flex-col">
-        <div className="h-[60%] bg-blue-500 md:h-full p-2">Game Board</div>
+        <div className="h-[60%] w-full md:h-full p-2">
+          <DrawingCanvas />
+        </div>
         <div className="flex h-full md:h-[90%]">
           <div className="w-[50%]">
             <PlayersList />
@@ -38,7 +41,9 @@ export default function RoomPage() {
         <PlayersList />
       </div>
       <div className="flex h-full flex-col w-full">
-        <div className="h-[60%] bg-blue-500 p-2">Game Board</div>
+        <div className="h-[60%] w-full p-2">
+          <DrawingCanvas />
+        </div>
         <div className="h-[40%] ">
           <Chat />
         </div>
