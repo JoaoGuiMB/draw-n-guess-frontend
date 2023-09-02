@@ -1,8 +1,13 @@
 import useDraw, { DrawProps } from "@/hooks/useDraw";
+import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
+import { DrawOptions } from "@/types/DrawOptions";
 import { draw } from "@/utils/draw";
+import { socket } from "@/utils/socket";
 import { useCallback, useEffect, useRef } from "react";
 
 export default function DrawingCanvas() {
+  const currentRoom = useTypedSelector((state) => state.roomReducer.room);
+  const dispatch = useDispatchHook();
   const strokeColor = "#000000";
   const strokeWidth = [2];
   const dashGap = [7];
@@ -20,9 +25,12 @@ export default function DrawingCanvas() {
         dashGap,
       };
       draw(drawOptions);
-      //socket.emit("draw", { drawOptions, roomId });
+      socket.emit("player-draw", {
+        drawOptions,
+        roomName: currentRoom.name,
+      });
     },
-    [strokeColor, strokeWidth, dashGap]
+    [strokeWidth, strokeColor, dashGap, currentRoom.name]
   );
 
   const { canvasRef, onInteractStart, clear, undo } = useDraw(onDraw);
@@ -40,6 +48,14 @@ export default function DrawingCanvas() {
 
     setCanvasDimensions();
   }, [canvasRef]);
+
+  useEffect(() => {
+    const ctx = canvasRef.current?.getContext("2d");
+    socket.on("update-canvas-state", (drawOptions: DrawOptions) => {
+      if (!ctx) return;
+      draw({ ...drawOptions, ctx });
+    });
+  }, [canvasRef, currentRoom]);
 
   return (
     <div

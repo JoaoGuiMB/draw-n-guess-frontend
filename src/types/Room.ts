@@ -1,5 +1,6 @@
 import { Category } from "./Categories";
 import { MaximumPoints } from "./MaximumPoints";
+import { DrawOptions } from "./DrawOptions";
 import { Player } from "./Player";
 
 export interface CreateRoom {
