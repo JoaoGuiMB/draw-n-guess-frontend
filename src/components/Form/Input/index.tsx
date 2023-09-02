@@ -9,6 +9,7 @@ interface Input {
   type?: string;
   placeholder?: string;
   defaultValue?: string | number;
+  maxLength?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -25,6 +26,7 @@ export default function Input({ inputProps }: InputProps) {
     type,
     defaultValue,
     placeholder,
+    maxLength,
     onChange,
   } = inputProps;
   const { register } = useFormContext();
@@ -47,13 +49,9 @@ export default function Input({ inputProps }: InputProps) {
         <input
           {...register(name, { required })}
           className="box-border bg-nord-6 w-full inline-flex h-[35px] appearance-none items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none text-2 shadow-[0_0_0_1px] outline-none hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black] selection:color-white selection:bg-nord-0"
-          type={type || "text"}
           max={type === "number" ? 10 : undefined}
           min={type === "number" ? 2 : undefined}
-          defaultValue={defaultValue || ""}
-          required={required}
-          onChange={onChange ? onChange : undefined}
-          placeholder={placeholder}
+          {...inputProps}
         />
       </Form.Control>
     </Form.Field>

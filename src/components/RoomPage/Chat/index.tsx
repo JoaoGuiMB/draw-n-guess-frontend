@@ -44,14 +44,15 @@ export default function Chat() {
       <div>
         <FormProvider {...methods}>
           <Form.Root onSubmit={methods.handleSubmit(submitGuess)}>
-            <div className="flex justify-between ">
-              <div className="w-full mr-2">
+            <div className="flex justify-between flex-col md:flex-row  ">
+              <div className="w-full mr-2 mb-2 md:mb-0">
                 <Input
                   inputProps={{
                     name: "guess",
                     required: true,
                     type: "text",
                     placeholder: "Type your guess here",
+                    maxLength: 30,
                   }}
                 />
               </div>
