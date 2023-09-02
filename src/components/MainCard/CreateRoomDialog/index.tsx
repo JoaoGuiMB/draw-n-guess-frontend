@@ -2,7 +2,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import * as Dialog from "@radix-ui/react-dialog";
 import { toast } from "react-toastify";
-import { Icon, InlineIcon } from "@iconify/react";
+import { Icon } from "@iconify/react";
 import Button from "@/components/Button";
 import Input from "@/components/Form/Input";
 import Select from "@/components/Form/Select";
@@ -91,10 +91,9 @@ export default function CreateRoomDialog() {
                     type: "number",
                   }}
                 />
-
-                <Form.Submit className="mt-4 w-full flex justify-center">
-                  <Button title="Create" />
-                </Form.Submit>
+                <div className="mt-5 w-full flex justify-center">
+                  <Button title="Create" type="submit" />
+                </div>
               </div>
             </Form.Root>
           </FormProvider>

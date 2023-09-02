@@ -1,5 +1,6 @@
 import { Category } from "./Categories";
 import { MaximumPoints } from "./MaximumPoints";
+import { DrawOptions } from "./DrawOptions";
 import { Player } from "./Player";
 
 export interface CreateRoom {
@@ -18,4 +19,16 @@ export interface Room {
   players: Player[];
   currentWord?: string;
   currentRound?: number;
+  chat: string[];
+}
+
+export interface JoinRoom {
+  playerId: string;
+  room: Room;
+}
+
+export interface Guess {
+  roomName: string;
+  playerNickname: string;
+  guess: string;
 }

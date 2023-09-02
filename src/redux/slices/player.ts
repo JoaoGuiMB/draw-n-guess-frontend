@@ -31,7 +31,11 @@ export const playerSlice = createSlice({
     setPlayerAvatar: (state, action: PayloadAction<IAvatar>) => {
       state.avatar = action.payload;
     },
+    setPlayerId: (state, action: PayloadAction<string>) => {
+      state.id = action.payload;
+    },
   },
 });
 
-export const { setPlayerName, setPlayerAvatar } = playerSlice.actions;
+export const { setPlayerName, setPlayerAvatar, setPlayerId } =
+  playerSlice.actions;

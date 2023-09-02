@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "avataaars";
 import { Icon } from "@iconify/react";
 import * as Form from "@radix-ui/react-form";
@@ -8,17 +8,22 @@ import { generateRandomAvatar } from "@/utils/generateRandomAvatar";
 import Input from "@/components/Form/Input";
 import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
 import { setPlayerName, setPlayerAvatar } from "@/redux/slices/player";
+import { socket } from "@/utils/socket";
 
 export default function AvatarContainer() {
   const methods = useForm();
   const playerSelector = useTypedSelector((state) => state.playerReducer);
   const dispatch = useDispatchHook();
 
+  useEffect(() => {
+    if (playerSelector.id) {
+      socket.emit("player-leave-room");
+    }
+  }, []);
+
   const toggleRandomAvatar = () => {
     dispatch(setPlayerAvatar(generateRandomAvatar()));
   };
-
-  console.log({ playerSelector });
 
   return (
     <div className="h-[40%] flex flex-col justify-center items-center">

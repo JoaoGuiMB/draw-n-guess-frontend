@@ -20,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} h-screen w-screen bg-nord-6`}>
-        <Header />
         <Providers>
+          <Header />
           <PageWrapper>{children}</PageWrapper>
         </Providers>
       </body>
