@@ -21,7 +21,11 @@ export const roomSlice = createSlice({
     setPlayers: (state, action: PayloadAction<Player[]>) => {
       state.room.players = action.payload;
     },
+    setChatMessages: (state, action: PayloadAction<string[]>) => {
+      state.room.chat = action.payload;
+    },
   },
 });
 
-export const { setCurrentRoom, setPlayers } = roomSlice.actions;
+export const { setCurrentRoom, setPlayers, setChatMessages } =
+  roomSlice.actions;

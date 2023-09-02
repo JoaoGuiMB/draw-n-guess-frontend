@@ -7,7 +7,7 @@ import Button from "@/components/Button";
 import { Guess, Room } from "@/types/Room";
 import { useTypedSelector, useDispatchHook } from "@/hooks/useRedux";
 import { socket } from "@/utils/socket";
-import { setCurrentRoom } from "@/redux/slices/room";
+import { setChatMessages } from "@/redux/slices/room";
 
 interface SubmitGuess {
   guess: string;
@@ -20,10 +20,10 @@ export default function Chat() {
   const currentRoom = useTypedSelector((state) => state.roomReducer);
 
   useEffect(() => {
-    socket.on("update-room", (room: Room) => {
-      dispatch(setCurrentRoom(room));
+    socket.on("update-chat", (chat: string[]) => {
+      dispatch(setChatMessages(chat));
     });
-  }, []);
+  }, [currentRoom, dispatch]);
 
   const submitGuess = (data: SubmitGuess) => {
     const { guess } = data;
