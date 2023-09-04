@@ -4,35 +4,18 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import Messages from "./ChatMessage";
 import Button from "@/components/Button";
-import { Guess, Room } from "@/types/Room";
+import { Guess, Room, SubmitGuess } from "@/types/Room";
 import { useTypedSelector, useDispatchHook } from "@/hooks/useRedux";
 import { socket } from "@/utils/socket";
 import { setChatMessages } from "@/redux/slices/room";
-
-interface SubmitGuess {
-  guess: string;
-}
+import useGame from "@/hooks/useGame";
 
 export default function Chat() {
-  const dispatch = useDispatchHook();
+  const { submitGuess } = useGame();
   const methods = useForm<SubmitGuess>();
-  const currentPlayer = useTypedSelector((state) => state.playerReducer);
-  const currentRoom = useTypedSelector((state) => state.roomReducer);
 
-  useEffect(() => {
-    socket.on("update-chat", (chat: string[]) => {
-      dispatch(setChatMessages(chat));
-    });
-  }, [currentRoom, dispatch]);
-
-  const submitGuess = (data: SubmitGuess) => {
-    const { guess } = data;
-    const playerGuess: Guess = {
-      roomName: currentRoom.room.name,
-      guess,
-      playerNickname: currentPlayer.nickName,
-    };
-    socket.emit("player-guess", playerGuess);
+  const onSubmitGuess = (data: SubmitGuess) => {
+    submitGuess(data);
     methods.resetField("guess");
   };
 
@@ -43,7 +26,7 @@ export default function Chat() {
       </div>
       <div>
         <FormProvider {...methods}>
-          <Form.Root onSubmit={methods.handleSubmit(submitGuess)}>
+          <Form.Root onSubmit={methods.handleSubmit(onSubmitGuess)}>
             <div className="flex justify-between flex-col md:flex-row  ">
               <div className="w-full mr-2 mb-2 md:mb-0">
                 <Input

@@ -32,3 +32,7 @@ export interface Guess {
   playerNickname: string;
   guess: string;
 }
+
+export interface SubmitGuess {
+  guess: string;
+}

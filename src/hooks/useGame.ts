@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { useDispatchHook, useTypedSelector } from "./useRedux";
 import { useRouter } from "next/navigation";
-import { setCurrentRoom } from "@/redux/slices/room";
+import { setChatMessages, setCurrentRoom } from "@/redux/slices/room";
 import { socket } from "@/utils/socket";
 import { updateIsPlayerTurn } from "@/redux/slices/player";
-import { Room } from "@/types/Room";
+import { Guess, Room, SubmitGuess } from "@/types/Room";
 import { Player } from "@/types/Player";
 
 interface GameHook {
   isWaitingForPlayers: boolean;
   currentRoom: Room;
   currentPlayer: Player;
+  submitGuess: (data: SubmitGuess) => void;
 }
 
 export default function useGame(): GameHook {
@@ -26,6 +27,7 @@ export default function useGame(): GameHook {
   const isWaitingForPlayers = currentRoom?.players.length < 2;
 
   useEffect(() => {
+    // Start Turn
     if (!isWaitingForPlayers) {
       socket.emit("start-turn", currentRoom?.name);
       socket.on("turn-started", (data: Room) => {
@@ -52,9 +54,27 @@ export default function useGame(): GameHook {
     isWaitingForPlayers,
   ]);
 
+  useEffect(() => {
+    // Update Chat
+    socket.on("update-chat", (chat: string[]) => {
+      dispatch(setChatMessages(chat));
+    });
+  }, [currentRoom, dispatch]);
+
+  const submitGuess = (data: SubmitGuess) => {
+    const { guess } = data;
+    const playerGuess: Guess = {
+      roomName: currentRoom.name,
+      guess,
+      playerNickname: currentPlayer.nickName,
+    };
+    socket.emit("player-guess", playerGuess);
+  };
+
   return {
     isWaitingForPlayers,
     currentRoom,
     currentPlayer,
+    submitGuess,
   };
 }
