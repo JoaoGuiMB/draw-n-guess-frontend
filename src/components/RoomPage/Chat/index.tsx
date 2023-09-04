@@ -4,10 +4,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import Messages from "./ChatMessage";
 import Button from "@/components/Button";
-import { Guess, Room, SubmitGuess } from "@/types/Room";
-import { useTypedSelector, useDispatchHook } from "@/hooks/useRedux";
-import { socket } from "@/utils/socket";
-import { setChatMessages } from "@/redux/slices/room";
+import { SubmitGuess } from "@/types/Room";
+
 import useGame from "@/hooks/useGame";
 
 export default function Chat() {

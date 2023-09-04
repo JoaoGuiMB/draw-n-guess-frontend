@@ -3,15 +3,7 @@ import Chat from "@/components/RoomPage/Chat";
 import DrawingCanvas from "@/components/RoomPage/DrawingCanvas";
 import PlayersList from "@/components/RoomPage/PlayersList";
 import useGame from "@/hooks/useGame";
-import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
 import useWindowSize from "@/hooks/useWindowSize";
-import { updateIsPlayerTurn } from "@/redux/slices/player";
-import { setCurrentRoom } from "@/redux/slices/room";
-import { Room } from "@/types/Room";
-import { socket } from "@/utils/socket";
-
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function RoomPage() {
   const { isMobile } = useWindowSize();
