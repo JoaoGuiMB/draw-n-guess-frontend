@@ -8,20 +8,11 @@ import useWindowSize from "@/hooks/useWindowSize";
 export default function RoomPage() {
   const { isMobile } = useWindowSize();
 
-  const { currentPlayer, currentRoom, isWaitingForPlayers } = useGame();
-
   if (isMobile) {
     return (
       <div className="w-full h-[92vh] flex flex-col">
         <div className="h-[60%] w-full md:h-full">
-          {isWaitingForPlayers ? (
-            "Waiting for new players to game start..."
-          ) : (
-            <DrawingCanvas />
-          )}
-          <p className="bg-red-500">
-            Current Player Drawning: {currentRoom?.currentPlayer}
-          </p>
+          <DrawingCanvas />
         </div>
         <div className="flex h-full md:h-[90%]">
           <div className="w-[50%]">
@@ -42,17 +33,7 @@ export default function RoomPage() {
       </div>
       <div className="flex h-full flex-col w-full">
         <div className="h-[60%] w-full">
-          <p className="bg-red-500">
-            Current Player Drawning: {currentRoom?.currentPlayer}
-          </p>
-          <p className="bg-red-500">
-            Is Current Player Turn: {currentPlayer.isPlayerTurn ? "Yes" : "No"}
-          </p>
-          {isWaitingForPlayers ? (
-            "Waiting for new players to game start..."
-          ) : (
-            <DrawingCanvas />
-          )}
+          <DrawingCanvas />
         </div>
         <div className="h-[40%] ">
           <Chat />

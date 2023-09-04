@@ -4,6 +4,7 @@ import { DrawOptions } from "@/types/DrawOptions";
 import { draw } from "@/utils/draw";
 import { socket } from "@/utils/socket";
 import { useCallback, useEffect, useRef } from "react";
+import WordToDraw from "./WordToDraw";
 
 export default function DrawingCanvas() {
   const currentRoom = useTypedSelector((state) => state.roomReducer.room);
@@ -58,16 +59,19 @@ export default function DrawingCanvas() {
   }, [canvasRef, currentRoom]);
 
   return (
-    <div
-      ref={containerRef}
-      className="flex h-[90%] w-full items-center justify-center mb-5"
-    >
-      <canvas
-        ref={canvasRef}
-        onMouseDown={onInteractStart}
-        onTouchStart={onInteractStart}
-        className="touch-none rounded border bg-white mb-2"
-      />
+    <div className="flex h-full w-full flex-col">
+      <WordToDraw />
+      <div
+        ref={containerRef}
+        className="flex h-[90%] w-full items-center justify-center mb-5"
+      >
+        <canvas
+          ref={canvasRef}
+          onMouseDown={onInteractStart}
+          onTouchStart={onInteractStart}
+          className="touch-none rounded border bg-white mb-2"
+        />
+      </div>
     </div>
   );
 }
