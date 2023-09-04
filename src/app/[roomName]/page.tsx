@@ -41,7 +41,7 @@ export default function RoomPage() {
         <PlayersList />
       </div>
       <div className="flex h-full flex-col w-full">
-        <div className="h-[60%] w-full p-2">
+        <div className="h-[60%] w-full">
           <p className="bg-red-500">
             Current Player Drawning: {currentRoom?.currentPlayer}
           </p>

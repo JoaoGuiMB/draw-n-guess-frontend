@@ -16,7 +16,7 @@ export default function PlayersList() {
   }, [dispatch, players]);
 
   return (
-    <div className="overflow-y-auto h-full border-4 border-nord-6 bg-nord-4">
+    <div className="overflow-y-auto h-full bg-nord-4">
       {players?.map((player, i) => (
         <PlayerListItem player={player} key={`${player.id}-${i}`} />
       ))}

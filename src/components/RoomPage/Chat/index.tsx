@@ -18,7 +18,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="bg-nord-4 w-full h-full border-4 border-nord-6 p-4 pb-0 flex flex-col justify-between">
+    <div className="bg-nord-4 w-full h-full p-4 pb-0 flex flex-col justify-between">
       <div className="bg-nord-6 w-full h-full rounded-md mb-2 overflow-y-auto p-2 flex flex-col">
         <Messages />
       </div>

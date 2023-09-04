@@ -60,13 +60,13 @@ export default function DrawingCanvas() {
   return (
     <div
       ref={containerRef}
-      className="flex h-full w-full items-center justify-center"
+      className="flex h-[90%] w-full items-center justify-center mb-5"
     >
       <canvas
         ref={canvasRef}
         onMouseDown={onInteractStart}
         onTouchStart={onInteractStart}
-        className="touch-none rounded border bg-white "
+        className="touch-none rounded border bg-white mb-2"
       />
     </div>
   );

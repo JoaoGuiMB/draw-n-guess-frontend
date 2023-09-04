@@ -10,10 +10,8 @@ interface PlayerListItemProps {
 export default function PlayerListItem({ player }: PlayerListItemProps) {
   const { avatar, nickName, points, isPlayerTurn } = player;
 
-  console.log({ player });
-
   return (
-    <div className="flex w-full h-[18%] justify-between items-center p-2 border-nord-10 border-2 bg-nord-6">
+    <div className="flex w-full h-[18%] justify-between items-center p-2 border-nord-10 border-2 bg-nord-6 mb-2">
       <div className="max-w-[60%]">
         <Avatar
           style={{ width: "70px", height: "70px" }}
