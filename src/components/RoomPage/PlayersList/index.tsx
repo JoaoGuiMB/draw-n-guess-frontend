@@ -17,8 +17,8 @@ export default function PlayersList() {
 
   return (
     <div className="overflow-y-auto h-full border-4 border-nord-6 bg-nord-4">
-      {players?.map((player) => (
-        <PlayerListItem player={player} key={player.id} />
+      {players?.map((player, i) => (
+        <PlayerListItem player={player} key={`${player.id}-${i}`} />
       ))}
     </div>
   );

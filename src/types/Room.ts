@@ -18,7 +18,7 @@ export interface Room {
   maximumPoints: MaximumPoints;
   players: Player[];
   currentWord?: string;
-  currentRound?: number;
+  currentPlayer?: string;
   chat: string[];
 }
 
