@@ -6,18 +6,26 @@ import * as Form from "@radix-ui/react-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { generateRandomAvatar } from "@/utils/generateRandomAvatar";
 import Input from "@/components/Form/Input";
-import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
-import { setPlayerName, setPlayerAvatar } from "@/redux/slices/player";
+import { useDispatchHook } from "@/hooks/useRedux";
+import {
+  setPlayerName,
+  setPlayerAvatar,
+  updateIsPlayerTurn,
+} from "@/redux/slices/player";
 import { socket } from "@/utils/socket";
+import useGame from "@/hooks/useGame";
 
 export default function AvatarContainer() {
   const methods = useForm();
-  const playerSelector = useTypedSelector((state) => state.playerReducer);
+  const { currentPlayer } = useGame();
   const dispatch = useDispatchHook();
 
   useEffect(() => {
-    if (playerSelector.id) {
+    if (currentPlayer.id) {
       socket.emit("player-leave-room");
+      socket.on("player-left-room", () => {
+        dispatch(updateIsPlayerTurn(false));
+      });
     }
   }, []);
 
@@ -31,7 +39,7 @@ export default function AvatarContainer() {
         <Avatar
           style={{ width: "150px", height: "150px" }}
           avatarStyle="Circle"
-          {...playerSelector.avatar}
+          {...currentPlayer.avatar}
         />
       </div>
       <button
@@ -48,7 +56,7 @@ export default function AvatarContainer() {
               label: "Nickname",
               message: "Please provide a nickname",
               required: true,
-              defaultValue: playerSelector.nickName,
+              defaultValue: currentPlayer.nickName,
               onChange: (e) => {
                 dispatch(setPlayerName(e.target.value));
               },

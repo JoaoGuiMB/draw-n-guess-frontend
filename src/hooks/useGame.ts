@@ -26,10 +26,13 @@ export default function useGame(): GameHook {
 
   const isWaitingForPlayers = currentRoom?.players?.length < 2;
   const thereIsAPlayerDrawing = useCallback(() => {
-    return currentRoom.players.find((player) => player.isPlayerTurn);
+    return currentRoom.players?.find((player) => player.isPlayerTurn);
   }, [currentRoom.players]);
 
   useEffect(() => {
+    if (!currentPlayer.id) {
+      return;
+    }
     // Start Turn
     if (!isWaitingForPlayers && !thereIsAPlayerDrawing()) {
       socket.emit("start-turn", currentRoom?.name);
@@ -54,11 +57,15 @@ export default function useGame(): GameHook {
     currentPlayer.nickName,
     currentRoom?.name,
     dispatch,
+    thereIsAPlayerDrawing,
     isWaitingForPlayers,
   ]);
 
   useEffect(() => {
     // Update Chat
+    if (!currentPlayer.id) {
+      return;
+    }
     socket.on("update-chat", (chat: string[]) => {
       dispatch(setChatMessages(chat));
     });
