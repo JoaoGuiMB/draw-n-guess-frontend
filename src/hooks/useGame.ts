@@ -24,7 +24,7 @@ export default function useGame(): GameHook {
     router.replace("/");
   }
 
-  const isWaitingForPlayers = currentRoom?.players.length < 2;
+  const isWaitingForPlayers = currentRoom?.players?.length < 2;
   const thereIsAPlayerDrawing = useCallback(() => {
     return currentRoom.players.find((player) => player.isPlayerTurn);
   }, [currentRoom.players]);
