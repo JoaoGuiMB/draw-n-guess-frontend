@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatchHook, useTypedSelector } from "./useRedux";
 import { useRouter } from "next/navigation";
 import { setChatMessages, setCurrentRoom } from "@/redux/slices/room";
@@ -25,10 +25,13 @@ export default function useGame(): GameHook {
   }
 
   const isWaitingForPlayers = currentRoom?.players.length < 2;
+  const thereIsAPlayerDrawing = useCallback(() => {
+    return currentRoom.players.find((player) => player.isPlayerTurn);
+  }, [currentRoom.players]);
 
   useEffect(() => {
     // Start Turn
-    if (!isWaitingForPlayers) {
+    if (!isWaitingForPlayers && !thereIsAPlayerDrawing()) {
       socket.emit("start-turn", currentRoom?.name);
       socket.on("turn-started", (data: Room) => {
         dispatch(setCurrentRoom(data));
@@ -39,7 +42,7 @@ export default function useGame(): GameHook {
         }
       });
     } else {
-      if (currentRoom.currentWord) {
+      if (currentRoom.currentWord && !thereIsAPlayerDrawing()) {
         socket.emit("stop-turn", currentRoom?.name);
         socket.on("turn-stopped", (data: Room) => {
           dispatch(setCurrentRoom(data));
