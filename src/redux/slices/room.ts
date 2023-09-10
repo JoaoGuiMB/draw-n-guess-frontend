@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Room } from "@/types/Room";
 import { Player } from "@/types/Player";
-import { stat } from "fs";
-import { DrawOptions } from "@/types/DrawOptions";
 
 interface RoomState {
   room: Room;

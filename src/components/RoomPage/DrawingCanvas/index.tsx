@@ -1,62 +1,66 @@
-import useDraw, { DrawProps } from "@/hooks/useDraw";
+"use client";
 import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
-import { DrawOptions } from "@/types/DrawOptions";
-import { draw } from "@/utils/draw";
+
 import { socket } from "@/utils/socket";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import WordToDraw from "./WordToDraw";
+import useGame from "@/hooks/useGame";
+import { Excalidraw } from "@excalidraw/excalidraw";
+import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
+import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 
 export default function DrawingCanvas() {
-  const currentRoom = useTypedSelector((state) => state.roomReducer.room);
   const dispatch = useDispatchHook();
   const strokeColor = "#000000";
   const strokeWidth = [2];
   const dashGap = [7];
 
+  const excalidrawRef = useRef<ExcalidrawImperativeAPI>(null);
+  const [elements, setElements] = useState<ExcalidrawElement[]>([]);
+
+  const { isWaitingForPlayers, currentPlayer, currentRoom } = useGame();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const onDraw = useCallback(
-    ({ ctx, currentPoint, prevPoint }: DrawProps) => {
-      const drawOptions = {
-        ctx,
-        currentPoint,
-        prevPoint,
-        strokeColor,
-        strokeWidth,
-        dashGap,
-      };
-      draw(drawOptions);
-      socket.emit("player-draw", {
-        drawOptions,
-        roomName: currentRoom.name,
-      });
-    },
-    [strokeWidth, strokeColor, dashGap, currentRoom.name]
-  );
+  const checkElementsAreEqual = (
+    serverElements: readonly ExcalidrawElement[]
+  ) => {
+    if (excalidrawRef.current) {
+      const currentElementsString = excalidrawRef.current.getSceneElements();
 
-  const { canvasRef, onInteractStart, clear, undo } = useDraw(onDraw);
+      return (
+        JSON.stringify(currentElementsString) === JSON.stringify(serverElements)
+      );
+    }
+
+    return false;
+  };
 
   useEffect(() => {
-    const setCanvasDimensions = () => {
-      if (!containerRef.current || !canvasRef.current) return;
-
-      const { width, height } = containerRef.current?.getBoundingClientRect();
-      const MARGIN = 20;
-
-      canvasRef.current.width = width - MARGIN;
-      canvasRef.current.height = height - MARGIN;
+    if (!currentPlayer.isPlayerTurn && !isWaitingForPlayers) {
+      socket.on(
+        "update-canvas-state",
+        (excalidrawElements: ExcalidrawElement[]) => {
+          // everytime the updateScene is triggered, it will trigger the onChange event
+          // so we need to check if the elements are equal to avoid infinite loop
+          if (!checkElementsAreEqual(excalidrawElements)) {
+            excalidrawRef.current?.updateScene({
+              elements: excalidrawElements,
+            });
+          }
+        }
+      );
+    }
+    return () => {
+      socket.off("update-canvas-state");
     };
+  }, [currentPlayer.isPlayerTurn, isWaitingForPlayers]);
 
-    setCanvasDimensions();
-  }, [canvasRef]);
-
-  useEffect(() => {
-    const ctx = canvasRef.current?.getContext("2d");
-    socket.on("update-canvas-state", (drawOptions: DrawOptions) => {
-      if (!ctx) return;
-      draw({ ...drawOptions, ctx });
+  const onChange = (excalidrawElements: readonly ExcalidrawElement[]) => {
+    socket.emit("player-draw", {
+      roomName: currentRoom.name,
+      excalidrawElements,
     });
-  }, [canvasRef, currentRoom]);
+  };
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -65,11 +69,10 @@ export default function DrawingCanvas() {
         ref={containerRef}
         className="flex h-[90%] w-full items-center justify-center mb-5"
       >
-        <canvas
-          ref={canvasRef}
-          onMouseDown={onInteractStart}
-          onTouchStart={onInteractStart}
-          className="touch-none rounded border bg-white mb-2"
+        <Excalidraw
+          ref={excalidrawRef}
+          onChange={onChange}
+          viewModeEnabled={!currentPlayer.isPlayerTurn}
         />
       </div>
     </div>
