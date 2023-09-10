@@ -20,9 +20,11 @@ export default function useGame(): GameHook {
   const currentPlayer = useTypedSelector((state) => state.playerReducer);
   const router = useRouter();
 
-  if (!currentPlayer?.id) {
-    router.replace("/");
-  }
+  useEffect(() => {
+    if (!currentPlayer?.id) {
+      router.replace("/");
+    }
+  }, [currentPlayer?.id, router]);
 
   const isWaitingForPlayers = currentRoom?.players?.length < 2;
   const thereIsAPlayerDrawing = useCallback(() => {
