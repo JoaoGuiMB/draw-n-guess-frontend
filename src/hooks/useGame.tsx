@@ -53,6 +53,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
     socket.on("turn-started", (data: Room) => {
       dispatch(setCurrentRoom(data));
+
       if (data.currentPlayer === currentPlayer.nickName) {
         dispatch(updateIsPlayerTurn(true));
       } else {

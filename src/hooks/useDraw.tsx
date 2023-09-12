@@ -9,7 +9,7 @@ import { useGame } from "./useGame";
 export const useDraw = () => {
   const { currentRoom, currentPlayer } = useGame();
   const excalidrawRef = useRef<ExcalidrawImperativeAPI>(null);
-  const viewModeEnabled = !currentPlayer.isPlayerTurn;
+  const viewModeEnabled = !currentPlayer?.isPlayerTurn;
 
   const checkElementsAreEqual = (
     serverElements: readonly ExcalidrawElement[]
@@ -25,8 +25,14 @@ export const useDraw = () => {
     return false;
   };
 
+  const resetScene = () => {
+    console.log("reset scene");
+    console.log(excalidrawRef.current);
+    excalidrawRef.current?.resetScene();
+  };
+
   useEffect(() => {
-    if (!currentPlayer.isPlayerTurn) {
+    if (!currentPlayer?.isPlayerTurn) {
       socket.on(
         "update-canvas-state",
         (excalidrawElements: ExcalidrawElement[]) => {
@@ -40,16 +46,19 @@ export const useDraw = () => {
         }
       );
     }
+    socket.on("reset-turn", () => {
+      resetScene();
+    });
     return () => {
       socket.off("update-canvas-state");
     };
-  }, [currentPlayer.isPlayerTurn, currentRoom.players]);
+  }, [currentPlayer?.isPlayerTurn, currentRoom?.players]);
 
   const onChange = (excalidrawElements: readonly ExcalidrawElement[]) => {
     socket.emit("player-draw", {
-      roomName: currentRoom.name,
+      roomName: currentRoom?.name,
       excalidrawElements,
     });
   };
-  return { onChange, excalidrawRef, viewModeEnabled };
+  return { onChange, excalidrawRef, viewModeEnabled, resetScene };
 };
