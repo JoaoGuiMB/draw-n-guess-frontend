@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Input from "@/components/Form/Input";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
@@ -6,7 +5,7 @@ import Messages from "./ChatMessage";
 import Button from "@/components/Button";
 import { SubmitGuess } from "@/types/Room";
 
-import useGame from "@/hooks/useGame";
+import { useGame } from "@/hooks/useGame";
 
 export default function Chat() {
   const { submitGuess } = useGame();

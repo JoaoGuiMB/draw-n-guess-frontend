@@ -1,23 +1,23 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Avatar from "avataaars";
 import { Icon } from "@iconify/react";
 import * as Form from "@radix-ui/react-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { generateRandomAvatar } from "@/utils/generateRandomAvatar";
 import Input from "@/components/Form/Input";
-import { useDispatchHook } from "@/hooks/useRedux";
+import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
 import {
   setPlayerName,
   setPlayerAvatar,
   updateIsPlayerTurn,
 } from "@/redux/slices/player";
 import { socket } from "@/utils/socket";
-import useGame from "@/hooks/useGame";
 
 export default function AvatarContainer() {
   const methods = useForm();
-  const { currentPlayer } = useGame();
+
+  const currentPlayer = useTypedSelector((state) => state.playerReducer);
   const dispatch = useDispatchHook();
 
   useEffect(() => {

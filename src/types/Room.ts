@@ -19,6 +19,7 @@ export interface Room {
   currentWord?: string;
   currentPlayer?: string;
   chat: string[];
+  timer: number;
 }
 
 export interface JoinRoom {

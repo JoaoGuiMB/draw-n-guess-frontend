@@ -1,4 +1,4 @@
-import useGame from "@/hooks/useGame";
+import { useGame } from "@/hooks/useGame";
 import { Player } from "@/types/Player";
 import { Icon } from "@iconify/react";
 import Avatar from "avataaars";

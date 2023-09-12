@@ -4,21 +4,16 @@ import { useDispatchHook, useTypedSelector } from "@/hooks/useRedux";
 import { socket } from "@/utils/socket";
 import { useEffect, useRef, useState, useMemo } from "react";
 import WordToDraw from "./WordToDraw";
-import useGame from "@/hooks/useGame";
+import { useGame } from "@/hooks/useGame";
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
+import ProgressBar from "./ProgressBar";
 
 export default function DrawingCanvas() {
-  const dispatch = useDispatchHook();
-  const strokeColor = "#000000";
-  const strokeWidth = [2];
-  const dashGap = [7];
-
   const excalidrawRef = useRef<ExcalidrawImperativeAPI>(null);
-  const [elements, setElements] = useState<ExcalidrawElement[]>([]);
 
-  const { isWaitingForPlayers, currentPlayer, currentRoom } = useGame();
+  const { currentPlayer, currentRoom } = useGame();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const checkElementsAreEqual = (
@@ -36,7 +31,7 @@ export default function DrawingCanvas() {
   };
 
   useEffect(() => {
-    if (!currentPlayer.isPlayerTurn && !isWaitingForPlayers) {
+    if (!currentPlayer.isPlayerTurn) {
       socket.on(
         "update-canvas-state",
         (excalidrawElements: ExcalidrawElement[]) => {
@@ -53,7 +48,7 @@ export default function DrawingCanvas() {
     return () => {
       socket.off("update-canvas-state");
     };
-  }, [currentPlayer.isPlayerTurn, isWaitingForPlayers]);
+  }, [currentPlayer.isPlayerTurn, currentRoom.players]);
 
   const onChange = (excalidrawElements: readonly ExcalidrawElement[]) => {
     socket.emit("player-draw", {
@@ -74,6 +69,9 @@ export default function DrawingCanvas() {
           onChange={onChange}
           viewModeEnabled={!currentPlayer.isPlayerTurn}
         />
+      </div>
+      <div className="p-2">
+        <ProgressBar />
       </div>
     </div>
   );

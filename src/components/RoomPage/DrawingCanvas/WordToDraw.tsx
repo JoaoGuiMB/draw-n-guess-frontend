@@ -1,10 +1,8 @@
-import useGame from "@/hooks/useGame";
+import { useGame } from "@/hooks/useGame";
 
 export default function WordToDraw() {
-  const { isWaitingForPlayers, currentPlayer, currentRoom } = useGame();
-  const message = isWaitingForPlayers
-    ? "Waiting for new players to start game..."
-    : currentPlayer?.isPlayerTurn
+  const { currentPlayer, currentRoom } = useGame();
+  const message = currentPlayer?.isPlayerTurn
     ? `Your word to draw is: ${currentRoom?.currentWord}`
     : `${currentRoom.currentPlayer} is drawing`;
   return (
