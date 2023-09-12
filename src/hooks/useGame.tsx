@@ -42,6 +42,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   }, [currentRoom.players]);
 
   useEffect(() => {
+    // Start turn
     if (!currentRoom.currentWord && currentRoom.name) {
       socket.emit("start-turn", currentRoom.name);
     }
@@ -65,6 +66,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   }, [thereIsAPlayerDrawing]);
 
   useEffect(() => {
+    // Reset turn
     if (
       currentPlayer.nickName === currentRoom.currentPlayer &&
       currentRoom.name
