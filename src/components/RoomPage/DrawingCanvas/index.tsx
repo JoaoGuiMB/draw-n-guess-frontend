@@ -1,11 +1,8 @@
 "use client";
-import { socket } from "@/utils/socket";
-import { useEffect, useRef } from "react";
+
+import { useRef } from "react";
 import WordToDraw from "./WordToDraw";
-import { useGame } from "@/hooks/useGame";
 import { Excalidraw } from "@excalidraw/excalidraw";
-import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types";
 import ProgressBar from "./ProgressBar";
 import { useDraw } from "@/hooks/useDraw";
 
