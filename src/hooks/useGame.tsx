@@ -13,7 +13,10 @@ import {
   updateTimer,
 } from "@/redux/slices/room";
 import { socket } from "@/utils/socket";
-import { updateIsPlayerTurn } from "@/redux/slices/player";
+import {
+  updateIsPlayerTurn,
+  updatePlayerGuessedRight,
+} from "@/redux/slices/player";
 import { Guess, Room, SubmitGuess } from "@/types/Room";
 import { Player } from "@/types/Player";
 
@@ -53,7 +56,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
     socket.on("turn-started", (data: Room) => {
       dispatch(setCurrentRoom(data));
-
+      dispatch(updatePlayerGuessedRight(false));
       if (data.currentPlayer === currentPlayer.nickName) {
         dispatch(updateIsPlayerTurn(true));
       } else {
@@ -86,6 +89,10 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
     socket.on("update-chat", (chat: string[]) => {
       dispatch(setChatMessages(chat));
+    });
+
+    socket.on("player-guessed-right", () => {
+      dispatch(updatePlayerGuessedRight(true));
     });
   }, [dispatch]);
 

@@ -8,7 +8,7 @@ import { SubmitGuess } from "@/types/Room";
 import { useGame } from "@/hooks/useGame";
 
 export default function Chat() {
-  const { submitGuess } = useGame();
+  const { submitGuess, currentPlayer } = useGame();
   const methods = useForm<SubmitGuess>();
 
   const onSubmitGuess = (data: SubmitGuess) => {
@@ -33,6 +33,9 @@ export default function Chat() {
                     type: "text",
                     placeholder: "Type your guess here",
                     maxLength: 30,
+                    disabled:
+                      currentPlayer.isPlayerTurn ||
+                      currentPlayer.playerGuessedRight,
                   }}
                 />
               </div>

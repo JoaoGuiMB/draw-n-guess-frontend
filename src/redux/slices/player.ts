@@ -20,6 +20,7 @@ const initialState: Player = {
   nickName: generateRandomNickName(),
   avatar: avatarInitialState,
   isPlayerTurn: false,
+  playerGuessedRight: false,
 };
 
 export const playerSlice = createSlice({
@@ -38,6 +39,9 @@ export const playerSlice = createSlice({
     updateIsPlayerTurn: (state, action: PayloadAction<boolean>) => {
       state.isPlayerTurn = action.payload;
     },
+    updatePlayerGuessedRight: (state, action: PayloadAction<boolean>) => {
+      state.playerGuessedRight = action.payload;
+    },
   },
 });
 
@@ -46,4 +50,5 @@ export const {
   setPlayerAvatar,
   setPlayerId,
   updateIsPlayerTurn,
+  updatePlayerGuessedRight,
 } = playerSlice.actions;

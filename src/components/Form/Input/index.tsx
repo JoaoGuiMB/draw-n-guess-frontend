@@ -11,6 +11,7 @@ interface Input {
   defaultValue?: string | number;
   maxLength?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 interface InputProps {
@@ -18,17 +19,7 @@ interface InputProps {
 }
 
 export default function Input({ inputProps }: InputProps) {
-  const {
-    name,
-    message,
-    label,
-    required,
-    type,
-    defaultValue,
-    placeholder,
-    maxLength,
-    onChange,
-  } = inputProps;
+  const { name, message, label, required, type, onChange } = inputProps;
   const { register } = useFormContext();
 
   return (
