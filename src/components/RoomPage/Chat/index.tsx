@@ -1,49 +1,29 @@
-import { useEffect } from "react";
 import Input from "@/components/Form/Input";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import Messages from "./ChatMessage";
 import Button from "@/components/Button";
-import { Guess, Room } from "@/types/Room";
-import { useTypedSelector, useDispatchHook } from "@/hooks/useRedux";
-import { socket } from "@/utils/socket";
-import { setChatMessages } from "@/redux/slices/room";
+import { SubmitGuess } from "@/types/Room";
 
-interface SubmitGuess {
-  guess: string;
-}
+import { useGame } from "@/hooks/useGame";
 
 export default function Chat() {
-  const dispatch = useDispatchHook();
+  const { submitGuess, currentPlayer } = useGame();
   const methods = useForm<SubmitGuess>();
-  const currentPlayer = useTypedSelector((state) => state.playerReducer);
-  const currentRoom = useTypedSelector((state) => state.roomReducer);
 
-  useEffect(() => {
-    socket.on("update-chat", (chat: string[]) => {
-      dispatch(setChatMessages(chat));
-    });
-  }, [currentRoom, dispatch]);
-
-  const submitGuess = (data: SubmitGuess) => {
-    const { guess } = data;
-    const playerGuess: Guess = {
-      roomName: currentRoom.room.name,
-      guess,
-      playerNickname: currentPlayer.nickName,
-    };
-    socket.emit("player-guess", playerGuess);
+  const onSubmitGuess = (data: SubmitGuess) => {
+    submitGuess(data);
     methods.resetField("guess");
   };
 
   return (
-    <div className="bg-nord-4 w-full h-full border-4 border-nord-6 p-4 pb-0 flex flex-col justify-between">
+    <div className="bg-nord-4 w-full h-full p-4 pb-0 flex flex-col justify-between">
       <div className="bg-nord-6 w-full h-full rounded-md mb-2 overflow-y-auto p-2 flex flex-col">
         <Messages />
       </div>
       <div>
         <FormProvider {...methods}>
-          <Form.Root onSubmit={methods.handleSubmit(submitGuess)}>
+          <Form.Root onSubmit={methods.handleSubmit(onSubmitGuess)}>
             <div className="flex justify-between flex-col md:flex-row  ">
               <div className="w-full mr-2 mb-2 md:mb-0">
                 <Input
@@ -53,6 +33,9 @@ export default function Chat() {
                     type: "text",
                     placeholder: "Type your guess here",
                     maxLength: 30,
+                    disabled:
+                      currentPlayer.isPlayerTurn ||
+                      currentPlayer.playerGuessedRight,
                   }}
                 />
               </div>

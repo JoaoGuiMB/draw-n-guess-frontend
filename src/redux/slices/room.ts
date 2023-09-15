@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Room } from "@/types/Room";
 import { Player } from "@/types/Player";
-import { stat } from "fs";
-import { DrawOptions } from "@/types/DrawOptions";
 
 interface RoomState {
   room: Room;
@@ -25,8 +23,11 @@ export const roomSlice = createSlice({
     setChatMessages: (state, action: PayloadAction<string[]>) => {
       state.room.chat = action.payload;
     },
+    updateTimer: (state, action: PayloadAction<number>) => {
+      state.room.timer = action.payload;
+    },
   },
 });
 
-export const { setCurrentRoom, setPlayers, setChatMessages } =
+export const { setCurrentRoom, setPlayers, setChatMessages, updateTimer } =
   roomSlice.actions;
