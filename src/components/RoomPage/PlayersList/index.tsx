@@ -15,9 +15,11 @@ export default function PlayersList() {
     });
   }, [dispatch, players]);
 
+  const playersCopy = [...players];
+  playersCopy.sort((a, b) => b.points - a.points);
   return (
     <div className="overflow-y-auto h-full bg-nord-4">
-      {players?.map((player, i) => (
+      {playersCopy?.map((player, i) => (
         <PlayerListItem player={player} key={`${player.id}-${i}`} />
       ))}
     </div>
