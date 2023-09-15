@@ -9,7 +9,9 @@ export default function Messages() {
         <div
           key={`${message}-${i}`}
           className={`truncate text-ellipsis overflow-y-auto ${
-            message.includes("acertou") ? " text-green-600 " : " text-nord-0 "
+            message.includes("got the right word")
+              ? " text-green-600 "
+              : " text-nord-0 "
           }}`}
         >
           {message}

@@ -4,6 +4,7 @@ import {
   ReactNode,
   useContext,
   createContext,
+  use,
 } from "react";
 import { useDispatchHook, useTypedSelector } from "./useRedux";
 import { useRouter } from "next/navigation";
@@ -19,6 +20,7 @@ import {
 } from "@/redux/slices/player";
 import { Guess, Room, SubmitGuess } from "@/types/Room";
 import { Player } from "@/types/Player";
+import { toast } from "react-toastify";
 
 interface GameHook {
   currentRoom: Room;
@@ -103,6 +105,17 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
       dispatch(updateTimer(timer));
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    // Player won the game
+
+    socket.on("player-won-the-game", (playerWhoWon) => {
+      toast.success(`${playerWhoWon}`);
+    });
+    return () => {
+      socket.off("player-won-the-game");
+    };
+  }, []);
 
   const submitGuess = (data: SubmitGuess) => {
     const { guess } = data;
